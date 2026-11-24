@@ -28,6 +28,7 @@ ALLOWED_SET = (
 
 ALLOWED_GET = (
     "duration",
+    "loop-file",
     "mute",
     "pause",
     "playlist",
