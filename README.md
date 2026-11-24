@@ -156,6 +156,26 @@ To get the current value of a property:
 curl http://127.0.0.1:7271/property/pause
 ```
 
+To get the current file loop mode:
+
+```bash
+curl http://127.0.0.1:7271/property/loop-file
+```
+
+To loop the current file indefinitely:
+
+```bash
+curl --json '{"loop-file": "inf"}' http://127.0.0.1:7271/property
+```
+
+To disable the file loop:
+
+```bash
+curl --json '{"loop-file": "no"}' http://127.0.0.1:7271/property
+```
+
+For security, `loop-file` updates only accept the values `inf` and `no`.
+
 Switch to the second playlist entry:
 
 ```bash
