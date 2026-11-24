@@ -24,6 +24,7 @@ ALLOWED_SET = (
     "pause",
     "speed",
     "volume",
+    "loop-file",
 )
 
 ALLOWED_GET = (
@@ -105,6 +106,8 @@ class PropSet(Route):
         val = inp_obj[prop]
         if prop not in ALLOWED_SET:
             raise MpvNotAllowed("Setting property '{}' is not allowed".format(prop))
+        if prop == "loop-file" and val not in ("inf", "no"):
+            raise MpvNotAllowed("loop-file must be either 'inf' or 'no'")
         if prop in OSD_PROPERTIES:
             cmd = ["osd-msg-bar", "set"]
             if isinstance(val, bool):
