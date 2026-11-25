@@ -18,6 +18,26 @@
     display: inline;
 }
 
+#loop-file {
+    flex: 0 0 52px;
+    margin-left: 0;
+    opacity: 0.4;
+}
+
+#loop-file.loop-enabled {
+    color: #9b009e;
+    opacity: 1;
+}
+
+#loop-file-state {
+    margin-left: 10px;
+    font-family: sans-serif;
+}
+
+.loop-control {
+    align-items: center;
+}
+
 button, label {
     font-size: 20px;
 }
@@ -142,6 +162,7 @@ input {
     .volume,
     td:first-child,
     label,
+    #loop-file-state,
     p {
         color: white;
     }

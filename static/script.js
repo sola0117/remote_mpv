@@ -32,6 +32,7 @@ async function mpvGetProperty(prop) {
 async function mpvEvent() {
     const props = {
         "duration": 0,
+        "loop-file": null,
         "mute": false,
         "pause": true,
         "playlist": [],
@@ -260,6 +261,44 @@ function toggleButton(state, name, onClass, title) {
     };
 }
 
+function normalizeLoopFile(value) {
+    if (value === "inf" || value === true || (typeof value === "number" && value > 0)) {
+        return true;
+    }
+    if (value === "no" || value === false || value === 0) {
+        return false;
+    }
+    return null;
+}
+
+function setupLoopFile(state) {
+    const enabled = normalizeLoopFile(state.props["loop-file"]);
+    const button = document.getElementById("loop-file");
+    const status = document.getElementById("loop-file-state");
+
+    button.classList.toggle("loop-enabled", enabled === true);
+    button.setAttribute("aria-pressed", enabled === true ? "true" : "false");
+    button.disabled = enabled === null;
+
+    if (enabled === null) {
+        button.title = "File loop state is unavailable";
+        status.textContent = "File loop: Unknown";
+        button.onclick = null;
+        return;
+    }
+
+    button.title = enabled ? "Disable file loop" : "Enable file loop";
+    status.textContent = `File loop: ${enabled ? "On" : "Off"}`;
+    button.onclick = async () => {
+        button.disabled = true;
+        try {
+            await mpvSetProperty("loop-file", enabled ? "no" : "inf");
+        } finally {
+            button.disabled = false;
+        }
+    };
+}
+
 function setupSlider(state, name, maxName) {
     const slider = document.getElementById(name);
     slider.value = state.props[name];
@@ -292,6 +331,7 @@ function updateIcon(state) {
 }
 
 function updateState(state) {
+    setupLoopFile(state);
     toggleButton(state, "mute", "muted", ["Unmute", "Mute"]);
     toggleButton(state, "pause", "paused", ["Play", "Pause"]);
     showPlaylist(state);

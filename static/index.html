@@ -32,6 +32,13 @@
             <button id="mute"><i class="fa-solid fa-volume-xmark"></i></button>
         </div>
 
+        <div class="container loop-control">
+            <button id="loop-file" type="button" title="Enable file loop" aria-pressed="false">
+                <i class="fa-solid fa-repeat"></i>
+            </button>
+            <span id="loop-file-state" role="status" aria-live="polite">File loop: Unknown</span>
+        </div>
+
         <form id="loadfile-form">
             <div id="filename">
                 <input type="text" name="filename" placeholder="Absolute path to the file or URL" required/>
